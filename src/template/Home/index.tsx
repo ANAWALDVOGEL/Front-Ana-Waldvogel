@@ -13,47 +13,76 @@ const HomeTemplate = () => {
         user: string;
         img: string;
         text: string;
-        selected?: boolean;
+        id: number;
     }
+
+    const [piuInput, setPiuInput] = useState('');
+
+    const piuInputLength = piuInput.length;
+
+    let exceeded = false;
 
     const [piusArray, setPiusArray] = useState<InterfacePius[]>([
         {
             img: '/assets/godoy.png',
             user: '@henrique.godoy',
-            text: 'Essa provinha de mecânica foi o auge, poli ferrando nois'
+            text: 'Essa provinha de mecânica foi o auge, poli ferrando nois',
+            id: 1
         },
         {
             img: '/assets/cainan.png',
             user: '@cainanzera',
-            text: 'Semana da P1 foi pegada demais... sinto falta de dormir uma noite digna. Vou migrar pra Prod!'
+            text: 'Semana da P1 foi pegada demais... sinto falta de dormir uma noite digna. Vou migrar pra Prod!',
+            id: 2
         },
         {
             img: '/assets/pj.png',
             user: '@polijuniorusp',
-            text: 'Batemos 5M de faturamentoooooooooo'
+            text: 'Batemos 5M de faturamentoooooooooo',
+            id: 3
         },
         {
             img: '/assets/ana.jpeg',
             user: '@ana.waldvogel',
-            text: 'NTec pq melhor núcleo????'
+            text: 'NTec pq melhor núcleo????',
+            id: 4
         },
         {
             img: '/assets/piu.png',
             user: '@piupiuwer',
-            text: 'Bem-vindo ao Piupiuwer! Desejamos uma ótima experiência na nossa plataforma :)'
+            text: 'Bem-vindo ao Piupiuwer! Desejamos uma ótima experiência na nossa plataforma :)',
+            id: 5
         }
     ]);
 
     function handleClick() {
-        setPiusArray([
-            {
-                img: '/assets/ana.jpeg',
-                user: '@ana.waldvogel',
-                text: 'teste'
-            },
-            ...piusArray
-        ]);
+        if (piuInput !== '' && piuInput.length <= 140) {
+            setPiusArray([
+                {
+                    img: '/assets/ana.jpeg',
+                    user: '@ana.waldvogel',
+                    text: piuInput,
+                    id: Math.random() * 100
+                },
+                ...piusArray
+            ]);
+        }
     }
+
+    function handleDelete(id: number) {
+        const index = piusArray.findIndex((piu) => piu.id === id);
+        setPiusArray((previousPiusArray) => {
+            previousPiusArray.splice(index, 1);
+            return [...previousPiusArray];
+        });
+    }
+
+    function exceededLength() {
+        if (piuInputLength > 140) {
+            exceeded = !exceeded;
+        }
+    }
+    exceededLength();
 
     return (
         <S.FeedAll>
@@ -104,7 +133,20 @@ const HomeTemplate = () => {
                     />
                     <S.PiuWriting>
                         <S.PiuText>O que você está pensando?</S.PiuText>
-                        <S.PiuInput id="piuinput" />
+                        <S.PiuInput
+                            onChange={(event) =>
+                                setPiuInput(event.target.value)
+                            }
+                        />
+                        {exceeded ? (
+                            <S.PiuTextLengthDois>
+                                {piuInputLength} caracteres
+                            </S.PiuTextLengthDois>
+                        ) : (
+                            <S.PiuTextLength>
+                                {piuInputLength} caracteres
+                            </S.PiuTextLength>
+                        )}
                         <S.PiuSend onClick={handleClick}>Enviar</S.PiuSend>
                     </S.PiuWriting>
                 </S.SideBarLeft>
@@ -114,7 +156,8 @@ const HomeTemplate = () => {
                             img={piu.img}
                             text={piu.text}
                             user={piu.user}
-                            selected={piu.selected}
+                            handleDelete={handleDelete}
+                            id={piu.id}
                         />
                     ))}
                 </S.Center>

@@ -128,6 +128,7 @@ export const PiuInput = styled.input`
     margin-top: 16px;
     padding-top: 8px;
     font-size: 20px;
+    font-family: 'Fredoka';
 `;
 
 export const PiuText = styled.span`
@@ -135,6 +136,21 @@ export const PiuText = styled.span`
     font-size: 24px;
     margin-left: 32px;
     padding-top: 48px;
+`;
+
+export const PiuTextLength = styled.span`
+    font-family: 'Fredoka';
+    font-size: 20px;
+    margin-top: 8px;
+    margin-left: 16px;
+`;
+
+export const PiuTextLengthDois = styled.span`
+    font-family: 'Fredoka';
+    font-size: 20px;
+    margin-top: 8px;
+    margin-left: 16px;
+    color: red;
 `;
 
 export const PiuSend = styled.button`
@@ -150,6 +166,7 @@ export const PiuSend = styled.button`
     justify-content: center;
     font-family: 'Fredoka';
     font-size: 20px;
+    cursor: pointer;
 `;
 
 export const Center = styled.div`
